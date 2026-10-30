@@ -71,6 +71,15 @@ def main():
     check("跑题章节被拦", rc == 1, out)
     os.remove(off)
 
+    print("[gate_all] 一次性全门禁")
+    rc, out = run("gate_all.py", "--project", proj, "--chapter", "1")
+    check("合格章通过", rc == 0 and "通过" in out, out)
+    off2 = os.path.join(proj, "正文", "第005章-注水.md")
+    open(off2, "w", encoding="utf-8").write("# 第005章 注水\n\n天亮了，大家起床，吃饭，聊天，笑，然后出门。\n")
+    rc, out = run("gate_all.py", "--project", proj, "--chapter", "5")
+    check("不合格章被拦", rc == 1, out)
+    os.remove(off2)
+
     print("[dup_check] 重复检测")
     rc, out = run("dup_check.py", "--project", proj, "--chapter", "3")
     check("正常章节通过", rc == 0, out)

@@ -2,7 +2,8 @@
 
 面向 **DeepSeek Harness / 通用 Agent** 的中文长篇小说生产工具链：把"长篇小说怎么写"变成一套可执行、可校验、可断点续跑的流程，而不是每次靠模型即兴发挥。
 
-配套方法论见 [WORKFLOW.md](WORKFLOW.md)（S0–S7 阶段、门禁、断点协议、日更机制）。
+配套方法论见 [WORKFLOW.md](WORKFLOW.md)（S0–S7 阶段、门禁、断点协议、日更机制）；
+不想逐章人工审稿的，用 [docs/AB-LOOP.md](docs/AB-LOOP.md) 的双代理循环（A 写 / B 审 / 脚本硬门禁）。
 
 ## 它解决什么
 
@@ -65,6 +66,7 @@ python3 scripts/validate_novel.py --project 小说/末日余烬
 | `check_outline_coverage.py` | S4 | 细纲必填字段、窗口连续性、卷纲事件是否都落到细纲 | ✓ |
 | `context_brief.py` | S5-1 | 写前简报：前文尾部、细纲、伏笔（含逾期）、状态、硬约束、卷级远景 | — |
 | `check_chapter_plan.py` | S5-4 | 细纲要点覆盖 + 章末钩子 + 字数区间 | ✓ |
+| `gate_all.py` | S5-4 | 上两者合并一键跑（A/B 循环用） | ✓ |
 | `dup_check.py` | S5-4 | 与前 N 章字符 n-gram 重合率 | ✓ |
 | `checkpoint.py` | S5-5 | 更新进度、追加 CHANGELOG、成品快照 | — |
 | `batch_status.py` | 日更 | 存稿池余量/欠更/健康度分级 | `--strict` |
