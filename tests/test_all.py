@@ -31,6 +31,17 @@ def main():
     dst = {f: h(os.path.join(dst_p, f)) for f in os.listdir(dst_p) if f.endswith(".py")} if os.path.isdir(dst_p) else {}
     check("脚本副本一致（否则先 make sync）", src == dst, f"src={len(src)} dst={len(dst)}")
 
+    print("[novel-ab] 技能包完整")
+    ab = os.path.join(ROOT, "skill-ab")
+    sk = open(os.path.join(ab, "SKILL.md"), encoding="utf-8").read()
+    check("frontmatter name 与目录一致", sk.startswith("---") and "name: novel-ab" in sk.split("---")[1], sk[:120])
+    check("含 A/B 两套提示词模板", "A 写手提示词模板" in sk and "B 审查提示词模板" in sk)
+    abscripts = os.path.join(ab, "scripts")
+    same = os.path.isdir(abscripts) and all(
+        open(os.path.join(abscripts, f), "rb").read() == open(os.path.join(ROOT, "scripts", f), "rb").read()
+        for f in os.listdir(os.path.join(ROOT, "scripts")) if f.endswith(".py"))
+    check("scripts 与主仓库一致（否则 make sync）", same)
+
     print("[new_project] 脚手架")
     check("生成 16 个文件", len([f for _, _, fs in os.walk(proj) for f in fs]) >= 15)
 

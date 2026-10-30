@@ -3,7 +3,7 @@
 面向 **DeepSeek Harness / 通用 Agent** 的中文长篇小说生产工具链：把"长篇小说怎么写"变成一套可执行、可校验、可断点续跑的流程，而不是每次靠模型即兴发挥。
 
 配套方法论见 [WORKFLOW.md](WORKFLOW.md)（S0–S7 阶段、门禁、断点协议、日更机制）；
-不想逐章人工审稿的，用 [docs/AB-LOOP.md](docs/AB-LOOP.md) 的双代理循环（A 写 / B 审 / 脚本硬门禁）。
+不想逐章人工审稿的，用 [docs/AB-LOOP.md](docs/AB-LOOP.md) 的双代理循环（A 写 / B 审 / 脚本硬门禁），已封装成默认启用的技能 `novel-ab`。
 
 ## 它解决什么
 
@@ -21,7 +21,7 @@
 ```bash
 git clone <this-repo> novel-forge && cd novel-forge
 make test        # 23 项冒烟测试（正例 + 反例）
-make install     # 同步脚本并安装技能到 ~/.dsh/skills/novel-writing
+make install     # 同步脚本并安装两个技能：~/.dsh/skills/{novel-writing,novel-ab}
 ```
 
 `make install` 会把 `skill/` 拷到 `~/.dsh/skills/novel-writing`，DSH 技能目录会自动加载（技能名 `novel-writing`，中文触发词已写进 description）。
